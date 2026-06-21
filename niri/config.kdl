@@ -1,0 +1,385 @@
+prefer-no-csd
+input {
+    keyboard {
+        xkb {
+            layout "us,ara"
+            options "grp:win_space_toggle"
+        }
+        numlock
+    }
+    touchpad {
+        tap
+        natural-scroll
+    }
+    mouse {
+        accel-speed -0.4
+        accel-profile "flat"
+    }
+}
+layout {
+    struts {
+        top 2
+    }
+    gaps 3
+    center-focused-column "never"
+    background-color "#1e1e2e"
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+    default-column-width {
+        proportion 0.5
+    }
+    focus-ring {
+        on
+        width 1
+        active-color "#ffffff"
+        inactive-color "#bcbcbc"
+    }
+    border {
+        off
+        width 1
+        active-color "3D86FF"
+        inactive-color "545454"
+        urgent-color "#9b0000"
+    }
+    shadow {
+        on
+        softness 30
+        spread 6
+        offset x=0 y=0
+        draw-behind-window true
+        color "#000000"
+    }
+}
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+output "VGA-1" {
+    mode "1280x1024@75.025"
+    scale 1
+}
+window-rule {
+    match app-id="^foot$"
+    background-effect {
+        blur true
+    }
+}
+animations {
+    window-open {
+        duration-ms 350
+        curve "ease-out-expo"
+        custom-shader "\n            vec4 open_color(vec3 coords_geo, vec3 size_geo) {\n                float offset = (1.0 - niri_clamped_progress) * 0.75;\n                vec3 shifted = coords_geo;\n                shifted.y -= offset;\n\n                if (shifted.y > 1.0)\n                    return vec4(0.0);\n\n                return texture2D(niri_tex, (niri_geo_to_tex * shifted).st);\n            }\n        "
+    }
+    window-close {
+        off
+    }
+    slowdown 1
+}
+hotkey-overlay {
+    skip-at-startup
+}
+window-rule {
+    match app-id="^org\\.wezfurlong\\.wezterm$"
+    default-column-width {
+
+    }
+}
+window-rule {
+    open-maximized true
+}
+layer-rule {
+    match namespace="^noctalia-overview*"
+    place-within-backdrop true
+}
+window-rule {
+    match app-id="firefox$" title="^Picture-in-Picture$"
+    open-floating true
+}
+window-rule {
+    geometry-corner-radius 8
+    clip-to-geometry true
+}
+binds {
+    Mod+Shift+Slash {
+        show-hotkey-overlay
+    }
+    Mod+D hotkey-overlay-title="Run an Application: vicinae" repeat=false {
+        spawn "vicinae" "toggle"
+    }
+    Mod+return hotkey-overlay-title="Run terminal: wezterm" {
+        spawn "wezterm"
+    }
+    // Toggle screen reader (orca)
+    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null {
+        spawn-sh "pkill orca || exec orca"
+    }
+    // Audio controls for PipeWire & WirePlumber (Works when locked)
+    XF86AudioRaiseVolume allow-when-locked=true {
+        spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"
+    }
+    XF86AudioLowerVolume allow-when-locked=true {
+        spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"
+    }
+    XF86AudioMute allow-when-locked=true {
+        spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    }
+    XF86AudioMicMute allow-when-locked=true {
+        spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+    }
+    // Brightness controls for brightnessctl (Works when locked)
+    XF86MonBrightnessUp allow-when-locked=true {
+        spawn "brightnessctl" "--class=backlight" "set" "+10%"
+    }
+    XF86MonBrightnessDown allow-when-locked=true {
+        spawn "brightnessctl" "--class=backlight" "set" "10%-"
+    }
+    // Layout & Windows Actions
+    Mod+O repeat=false {
+        toggle-overview
+    }
+    Mod+Q repeat=false {
+        close-window
+    }
+    Mod+H {
+        focus-column-left
+    }
+    Mod+J {
+        focus-window-down
+    }
+    Mod+K {
+        focus-window-up
+    }
+    Mod+L {
+        focus-column-right
+    }
+    Mod+Ctrl+H {
+        move-column-left
+    }
+    Mod+Ctrl+J {
+        move-window-down
+    }
+    Mod+Ctrl+K {
+        move-window-up
+    }
+    Mod+Ctrl+L {
+        move-column-right
+    }
+    Mod+Shift+H {
+        focus-monitor-left
+    }
+    Mod+Shift+J {
+        focus-monitor-down
+    }
+    Mod+Shift+K {
+        focus-monitor-up
+    }
+    Mod+Shift+L {
+        focus-monitor-right
+    }
+    Mod+Shift+Ctrl+H {
+        move-column-to-monitor-left
+    }
+    Mod+Shift+Ctrl+J {
+        move-column-to-monitor-down
+    }
+    Mod+Shift+Ctrl+K {
+        move-column-to-monitor-up
+    }
+    Mod+Shift+Ctrl+L {
+        move-column-to-monitor-right
+    }
+    Mod+U {
+        focus-workspace-down
+    }
+    Mod+I {
+        focus-workspace-up
+    }
+    Mod+Ctrl+U {
+        move-column-to-workspace-down
+    }
+    Mod+Ctrl+I {
+        move-column-to-workspace-up
+    }
+    Mod+Shift+U {
+        move-workspace-down
+    }
+    Mod+Shift+I {
+        move-workspace-up
+    }
+    // Mouse Wheel Bindings with Cooldown
+    Mod+WheelScrollDown cooldown-ms=150 {
+        focus-workspace-down
+    }
+    Mod+WheelScrollUp cooldown-ms=150 {
+        focus-workspace-up
+    }
+    Mod+Ctrl+WheelScrollDown cooldown-ms=150 {
+        move-column-to-workspace-down
+    }
+    Mod+Ctrl+WheelScrollUp cooldown-ms=150 {
+        move-column-to-workspace-up
+    }
+    Mod+WheelScrollRight {
+        focus-column-right
+    }
+    Mod+WheelScrollLeft {
+        focus-column-left
+    }
+    Mod+Ctrl+WheelScrollRight {
+        move-column-right
+    }
+    Mod+Ctrl+WheelScrollLeft {
+        move-column-left
+    }
+    Mod+Shift+WheelScrollDown {
+        focus-column-right
+    }
+    Mod+Shift+WheelScrollUp {
+        focus-column-left
+    }
+    Mod+Ctrl+Shift+WheelScrollDown {
+        move-column-right
+    }
+    Mod+Ctrl+Shift+WheelScrollUp {
+        move-column-left
+    }
+    // Workspaces Navigation
+    Mod+1 {
+        focus-workspace 1
+    }
+    Mod+2 {
+        focus-workspace 2
+    }
+    Mod+3 {
+        focus-workspace 3
+    }
+    Mod+4 {
+        focus-workspace 4
+    }
+    Mod+5 {
+        focus-workspace 5
+    }
+    Mod+6 {
+        focus-workspace 6
+    }
+    Mod+7 {
+        focus-workspace 7
+    }
+    Mod+8 {
+        focus-workspace 8
+    }
+    Mod+9 {
+        focus-workspace 9
+    }
+    Mod+Ctrl+1 {
+        move-column-to-workspace 1
+    }
+    Mod+Ctrl+2 {
+        move-column-to-workspace 2
+    }
+    Mod+Ctrl+3 {
+        move-column-to-workspace 3
+    }
+    Mod+Ctrl+4 {
+        move-column-to-workspace 4
+    }
+    Mod+Ctrl+5 {
+        move-column-to-workspace 5
+    }
+    Mod+Ctrl+6 {
+        move-column-to-workspace 6
+    }
+    Mod+Ctrl+7 {
+        move-column-to-workspace 7
+    }
+    Mod+Ctrl+8 {
+        move-column-to-workspace 8
+    }
+    Mod+Ctrl+9 {
+        move-column-to-workspace 9
+    }
+    // Column and Window Management
+    Mod+BracketLeft {
+        consume-or-expel-window-left
+    }
+    Mod+BracketRight {
+        consume-or-expel-window-right
+    }
+    Mod+Comma {
+        consume-window-into-column
+    }
+    Mod+Period {
+        expel-window-from-column
+    }
+    // Resizing and Presets
+    Mod+R {
+        switch-preset-column-width
+    }
+    Mod+Shift+R {
+        switch-preset-window-height
+    }
+    Mod+Ctrl+R {
+        reset-window-height
+    }
+    Mod+F {
+        maximize-column
+    }
+    Mod+Shift+F {
+        fullscreen-window
+    }
+    Mod+Ctrl+F {
+        expand-column-to-available-width
+    }
+    Mod+C {
+        center-column
+    }
+    Mod+Ctrl+C {
+        center-visible-columns
+    }
+    // Finer Size Adjustments
+    Mod+Minus {
+        set-column-width "-10%"
+    }
+    Mod+Equal {
+        set-column-width "+10%"
+    }
+    Mod+Shift+Minus {
+        set-window-height "-10%"
+    }
+    Mod+Shift+Equal {
+        set-window-height "+10%"
+    }
+    // Floating Layout
+    Mod+V {
+        toggle-window-floating
+    }
+    Mod+Shift+V {
+        switch-focus-between-floating-and-tiling
+    }
+    // Tabs Mode
+    Mod+W {
+        toggle-column-tabbed-display
+    }
+    // Screenshots
+    Mod+S {
+        screenshot
+    }
+    // Escape Hatch & Quit
+    Mod+Escape allow-inhibiting=false {
+        toggle-keyboard-shortcuts-inhibit
+    }
+    Mod+Shift+E {
+        quit
+    }
+    Ctrl+Alt+Delete {
+        quit
+    }
+    // Power Management
+    Mod+Shift+P {
+        power-off-monitors
+    }
+}
+spawn-at-startup "vicinae" "server"
+spawn-sh-at-startup "/nix/store/yb8n6067yinbhsim791zqfngp5d2dsl9-xdg-desktop-portal-1.20.3/libexec/xdg-desktop-portal"
+include "./noctalia.kdl"
+spawn-at-startup "noctalia-shell"
