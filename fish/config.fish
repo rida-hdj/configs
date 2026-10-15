@@ -1,23 +1,23 @@
 function fish_greeting
 end
 
+fish_add_path ~/.cargo/bin/
+
 # aliases
 alias ls="lsd"
 alias v="nvim"
 alias sv="sudo -E nvim"
-alias ff="fastfetch -c examples/13"
-alias update="~/dev/automation/nixos/update.sh"
+
 # Auto-start tmux safely (no SSH, no nesting)
- if status is-interactive
+if status is-interactive
     if type -q tmux
         if not set -q TMUX
             if not set -q SSH_TTY
-                tmux attach -t main 2>/dev/null; or tmux new -s main
+                tmux new-session -A -s main
             end
         end
     end
- end
-
+end
 
 set -g theme_color_scheme catppuccin-mocha
 set -g theme_powerline_fonts yes
