@@ -12,7 +12,7 @@ input {
         natural-scroll
     }
     mouse {
-        accel-speed -0.4
+        accel-speed 1
         accel-profile "flat"
     }
 }
@@ -98,12 +98,13 @@ window-rule {
     open-floating true
 }
 window-rule {
-    geometry-corner-radius 6
+    geometry-corner-radius 2
     clip-to-geometry true
 }
 
 spawn-at-startup "vicinae" "server"
 include "./noctalia.kdl"
 include "./binds.kdl"
+// spawn-at-startup "noctalia-shell"
 spawn-at-startup "noctalia"
 // spawn-at-startup "npx" "arrpc"

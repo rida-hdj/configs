@@ -7,6 +7,9 @@ fish_add_path ~/.cargo/bin/
 alias ls="lsd"
 alias v="nvim"
 alias sv="sudo -E nvim"
+alias ff="fastfetch -c examples/13"
+alias ncli="~/dev/programming-langs/rust/ncli/ncli-linux-x86_64"
+alias rust="cd ~/dev/programming-langs/rust/ | ls"
 
 # Auto-start tmux safely (no SSH, no nesting)
 if status is-interactive
@@ -19,19 +22,7 @@ if status is-interactive
     end
 end
 
-set -g theme_color_scheme catppuccin-mocha
-set -g theme_powerline_fonts yes
-set -g theme_nerd_fonts yes
-set -g theme_newline_cursor yes
-set -g theme_newline_prompt " "
-set -g theme_display_cmd_duration yes
-set -g theme_display_date no
-set -g theme_display_git_dirty no
-set -g theme_display_git_ahead_verbose no
-set -g theme_display_git_untracked no
-set -g theme_show_exit_status yes
-set -g theme_display_git yes
-set -g theme_use_abbreviated_branch_name yes
-set -g theme_display_vi yes
+set -U tide_character_icon ''
+set -U tide_character_vi_icon_default ''
 fish_vi_key_bindings
 set -U fish_autosuggestion_enabled 1
